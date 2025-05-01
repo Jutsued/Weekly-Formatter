@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekly/Weekend Trafic Advisory Formatter</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1 class="underline">
+      Weekly<span>«░»</span>Weekend Trafic Advisory Formatter
+    </h1>
+
+    <div class="container">
+      <div class="form-container">
+        <label for="closureInfo">Input:</label>
+        <textarea
+          id="closureInfo"
+          name="closureInfo"
+          rows="10"
+          cols="50"
+          required
+          placeholder="Paste closure information here"
+        ></textarea>
+        <button id="btn-format">Format Weekly || Weekend</button>
+        <button class="reset-copy" id="btn-reset">Reset</button>
+      </div>
+      <div class="form-container">
+        <label for="formattedOutput">Results:</label>
+        <textarea
+            id="formattedOutput"
+            rows="10"
+            cols="50"
+            readonly
+            placeholder="Formatted closure information will appear here"
+        ></textarea>
+        <button class="reset-copy" id="btn-copy">Copy</button>
+        <div id="notificationOutput"></div>
+        <!-- Notification div -->
+    </div>
+    
+    <div class="ul-container">
+        <h1>Bullet<span>↔</span>Point Converter</h1>
+        <textarea id="bulletPoint" rows="10" placeholder="Enter bullet points here..."></textarea>
+        <div class="buttons">
+            <button id="bullet-format">Format</button>
+            <button id="bullet-reset">Reset</button>
+            <button id="bullet-copy">Copy</button>
+        </div>
+        <div class="notificationBullet"></div>
+    </div>
+    
+
+    <!-- <button onclick="formatClosureInfo()">Format Weekly || Weekend</button> -->
+
+    <footer class="footer container section">
+      <h3 class="footer__title">
+        &copy; 2024 Pablo A. Bonilla || Weekly/Weekend Trafic Advisory Formatter
+        App
+      </h3>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="ul-script.js"></script>
+  </body>
+</html>
