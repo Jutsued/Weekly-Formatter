@@ -29,9 +29,8 @@ function formatClosureInfo() {
 }
 
 function formatText(text) {
-  // Format text with spaces between hours/dates
-  text = text.replace(/\b(\d+)(am|pm)\b/g, "$1 $2");
-  // Remove minutes from exact hour times
+  // Remove ":00" from exact hour times
+  text = text.replace(/\b(\d+):00\s*(am|pm)\b/gi, "$1$2");
   text = text.replace(/\b(\d+):00\b/g, "$1");
   return text;
 }
