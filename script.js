@@ -10,12 +10,19 @@ function formatClosureInfo() {
 
     if (splitIndex !== -1) {
       const strongPart = line.substring(0, splitIndex).trim();
-      const paragraphPart = line.substring(splitIndex + 1).trim();
+      let paragraphPart = line.substring(splitIndex + 1).trim();
+
+      // Find any date in MM/DD/YY or MM/DD/YYYY
+      paragraphPart = paragraphPart.replace(
+        /\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g,
+        (match) => convertDate(match) // replace each found date
+      );
 
       const location = `<strong>${formatText(strongPart)}</strong>`;
       const details = `<p>${formatText(paragraphPart)}</p>`;
 
       // Add the formatted location and details to the output as raw HTML tags
+      // output += location + "\n" + details + "\n\n";
       output += location + "\n" + details + "\n\n";
     } else {
       // output +=
