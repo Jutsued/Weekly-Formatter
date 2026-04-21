@@ -3,65 +3,152 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weekly/Weekend Trafic Advisory Formatter</title>
+    <title>Advisory Formatter — NYC DOT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;600;700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <h1 class="underline">
-      Weekly<span>«░»</span>Weekend Trafic Advisory Formatter
-    </h1>
 
-    <div class="container">
-      <div class="form-container">
-        <label for="closureInfo">Input:</label>
-        <textarea
-          id="closureInfo"
-          name="closureInfo"
-          rows="10"
-          cols="50"
-          required
-          placeholder="Paste closure information here"
-        ></textarea>
-        <button id="btn-format">Format Weekly || Weekend</button>
-        <button class="reset-copy" id="btn-reset">Reset</button>
-      </div>
-      <div class="form-container">
-        <label for="formattedOutput">Results:</label>
-        <textarea
-            id="formattedOutput"
-            rows="10"
-            cols="50"
-            readonly
-            placeholder="Formatted closure information will appear here"
-        ></textarea>
-        <button class="reset-copy" id="btn-copy">Copy</button>
-        <div id="notificationOutput"></div>
-        <!-- Notification div -->
-    </div>
-    
-    <div class="ul-container">
-        <h1>Bullet<span>↔</span>Point Converter</h1>
-        <textarea id="bulletPoint" rows="10" placeholder="Enter bullet points here..."></textarea>
-        <div class="buttons">
-            <button id="bullet-format">Format</button>
-            <button id="bullet-reset">Reset</button>
-            <button id="bullet-copy">Copy</button>
+    <header class="app-header">
+      <div class="app-header-inner">
+        <div class="logo-group">
+          <div class="logo-signal">
+            <span class="signal-dot signal-red"></span>
+            <span class="signal-dot signal-amber"></span>
+            <span class="signal-dot signal-green"></span>
+          </div>
+          <div class="logo-text">
+            <span class="logo-title">Advisory Formatter</span>
+            <span class="logo-sub">NYC Dept. of Transportation</span>
+          </div>
         </div>
-        <div class="notificationBullet"></div>
-    </div>
-    
+        <div class="header-pills">
+          <span class="header-pill">Weekly</span>
+          <span class="header-pill-sep">·</span>
+          <span class="header-pill">Weekend</span>
+        </div>
+      </div>
+    </header>
 
-    <!-- <button onclick="formatClosureInfo()">Format Weekly || Weekend</button> -->
+    <main class="app-main">
 
-    <footer class="footer container section">
-      <h3 class="footer__title">
-        &copy; 2024 Pablo A. Bonilla || Weekly/Weekend Trafic Advisory Formatter
-        App
-      </h3>
+      <!-- 01 UPLOAD -->
+      <section class="tool-section">
+        <div class="section-eyebrow">
+          <span class="eyebrow-num">01</span>
+          <span class="eyebrow-label">Upload Advisory Document</span>
+          <span class="eyebrow-rule"></span>
+        </div>
+
+        <div class="upload-wrapper">
+          <div class="upload-zone" id="uploadZone">
+            <div class="upload-icon-wrap">
+              <svg class="upload-icon-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="6" width="24" height="30" rx="3" stroke="currentColor" stroke-width="2"/>
+                <path d="M32 6l8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <rect x="32" y="6" width="8" height="8" rx="1" stroke="currentColor" stroke-width="2"/>
+                <path d="M14 20h16M14 26h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="36" cy="36" r="10" fill="var(--bg-surface)" stroke="currentColor" stroke-width="2"/>
+                <path d="M36 30v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <p class="upload-title">Drop your <strong>.docx</strong> Advisory here</p>
+            <p class="upload-hint">Auto-detects Weekly or Weekend — no configuration needed</p>
+            <label for="docxUpload" class="upload-btn">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 11V3M5 6l3-3 3 3M3 13h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Browse File
+            </label>
+            <input type="file" id="docxUpload" accept=".docx" />
+          </div>
+          <div id="uploadStatus"></div>
+        </div>
+      </section>
+
+      <!-- OUTPUT -->
+      <section class="output-section" id="outputSection" style="display:none;">
+        <div class="section-eyebrow">
+          <span class="eyebrow-num">→</span>
+          <span class="eyebrow-label">Formatted Output</span>
+          <span class="eyebrow-rule"></span>
+          <div class="output-actions">
+            <button class="btn-outline" id="btn-copy-all">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" stroke-width="1.6"/></svg>
+              Copy All
+            </button>
+            <button class="btn-ghost" id="btn-clear-upload">Clear</button>
+            <div id="notificationUpload" class="inline-notify"></div>
+          </div>
+        </div>
+        <div id="sectionsContainer"></div>
+      </section>
+
+      <!-- MANUAL PASTE FALLBACK -->
+      <section class="tool-section">
+        <details class="manual-section" id="manualSection">
+          <summary class="manual-summary">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h7M3 12h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Manual paste fallback
+          </summary>
+          <div class="manual-body">
+            <div class="manual-col">
+              <label class="field-label" for="closureInfo">Input</label>
+              <textarea id="closureInfo" name="closureInfo" rows="10" placeholder="Paste closure information here"></textarea>
+              <div class="btn-row">
+                <button class="btn-primary" id="btn-format">Format</button>
+                <button class="btn-secondary" id="btn-reset">Reset</button>
+              </div>
+            </div>
+            <div class="manual-col">
+              <label class="field-label" for="formattedOutput">Output</label>
+              <textarea id="formattedOutput" rows="10" readonly placeholder="Formatted output appears here"></textarea>
+              <div class="btn-row">
+                <button class="btn-secondary" id="btn-copy">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" stroke-width="1.6"/></svg>
+                  Copy
+                </button>
+                <div id="notificationOutput" class="inline-notify"></div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- 02 BULLET CONVERTER -->
+      <section class="tool-section">
+        <div class="section-eyebrow">
+          <span class="eyebrow-num">02</span>
+          <span class="eyebrow-label">Bullet Point Converter</span>
+          <span class="eyebrow-rule"></span>
+        </div>
+        <div class="bullet-card">
+          <textarea id="bulletPoint" rows="8" placeholder="Paste bullet points here — converts • items to &lt;ul&gt;&lt;li&gt; HTML"></textarea>
+          <div class="bullet-footer">
+            <div class="btn-row">
+              <button class="btn-primary" id="bullet-format">Convert to &lt;ul&gt;</button>
+              <button class="btn-secondary" id="bullet-reset">Reset</button>
+              <button class="btn-secondary" id="bullet-copy">
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" stroke="currentColor" stroke-width="1.6"/></svg>
+                Copy
+              </button>
+            </div>
+            <div class="notificationBullet inline-notify"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="app-footer">
+      <span>© 2024 Pablo A. Bonilla</span>
+      <span class="footer-sep">·</span>
+      <span>NYC DOT Traffic Advisory Formatter</span>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
     <script src="dateTimeFormat.js"></script>
+    <script src="script.js"></script>
     <script src="ul-script.js"></script>
   </body>
 </html>
